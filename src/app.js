@@ -3,19 +3,17 @@ require("dotenv").config();
 
 const { connectDB } = require("./config/database");
 const authRoutes = require("./routes/auth.routes");
+const userRoutes = require("./routes/user.routes");
 
 const app = express();
 
-// Middleware
 app.use(express.json());
 
-// Conectar BD
 connectDB();
 
-// Rutas
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 
-// Ruta test
 app.get("/", (req, res) => {
   res.json({ message: "API funcionando correctamente" });
 });
