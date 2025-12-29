@@ -1,3 +1,4 @@
+// requerimos la librería DataTypes de Sequelize y la conexión a la base de datos
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/database");
 
@@ -17,5 +18,13 @@ const User = sequelize.define("User", {
     allowNull: false
   }
 });
+
+//Al borrar un usuario borrar sus tareas.
+const Task = require("./task.model");
+
+// Definimos la relación entre User y Task
+User.hasMany(Task, { foreignKey: "userId", onDelete: "CASCADE" });// Un usuario puede tener muchas tareas
+Task.belongsTo(User, { foreignKey: "userId" });   // Una tarea pertenece a un único usuario
+
 
 module.exports = User;

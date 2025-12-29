@@ -1,9 +1,11 @@
-const jwt = require("jsonwebtoken");
-const User = require("../models/user.model");
+const jwt = require("jsonwebtoken");// Librería para manejar JSON Web Tokens
+const User = require("../models/user.model");// Importamos el modelo de Usuario
+
+// Middleware de autenticación
 
 const authMiddleware = async (req, res, next) => {
   try {
-    // Obtener token del header
+    // Obtener token del header. 
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -27,7 +29,7 @@ const authMiddleware = async (req, res, next) => {
       });
     }
 
-    // Guardamos el usuario en la request
+    // Guardamos el usuario en la request para usarlo en los controladores
     req.user = user;
 
     next();

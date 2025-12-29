@@ -5,7 +5,7 @@ const User = require("../models/user.model");
 // ======================
 const getProfile = async (req, res) => {
   try {
-    const user = req.user;
+    const user = req.user;// Usuario obtenido del middleware de autenticación
 
     res.json({
       id: user.id,
@@ -22,6 +22,7 @@ const getProfile = async (req, res) => {
 // ======================
 // ACTUALIZAR USUARIO
 // ======================
+// Actualiza el perfil del usuario logueado, se puede cambiar nombre, email y contraseña
 const updateUser = async (req, res) => {
   try {
     const user = req.user;
@@ -35,8 +36,9 @@ const updateUser = async (req, res) => {
       user.password = await bcrypt.hash(password, 10);
     }
 
-    await user.save();
-
+    await user.save();// Guardamos los cambios
+    
+// Respuesta con el usuario actualizado
     res.json({
       message: "Usuario actualizado correctamente",
       user: {
