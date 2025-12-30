@@ -8,7 +8,7 @@ const {
   deleteUser
 } = require("../controllers/user.controller");
 
-// Todas estas rutas están protegidas
+// Todas estas rutas están protegidas usan el middleware de autenticación
 router.get("/me", authMiddleware, getProfile);
 router.put("/me", authMiddleware, updateUser);
 router.delete("/me", authMiddleware, deleteUser);

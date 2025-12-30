@@ -1,5 +1,5 @@
-const { Sequelize } = require("sequelize");
-require("dotenv").config();
+const { Sequelize } = require("sequelize");// Importamos Sequelize
+require("dotenv").config();   // Cargamos variables de entorno
 
 // Creamos la conexión a la base de datos
 const sequelize = new Sequelize(
@@ -16,7 +16,7 @@ const sequelize = new Sequelize(
 // Función para probar conexión
 const connectDB = async () => {
   try {
-    await sequelize.authenticate();
+    await sequelize.authenticate(); // Devuelve una Promesa. por eso utilizamos await para que el código no se siga ejecutando.
     console.log("✅ Conectado a la base de datos");
   } catch (error) {
     console.error("❌ Error al conectar a la base de datos:", error);

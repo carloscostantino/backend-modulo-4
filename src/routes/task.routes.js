@@ -9,7 +9,7 @@ const {
   deleteTask
 } = require("../controllers/task.controller");
 
-// Todas protegidas
+// Todas protegidas con el middleware de autenticación
 router.post("/", authMiddleware, createTask);
 router.get("/", authMiddleware, getTasks);
 router.put("/:id", authMiddleware, updateTask);
