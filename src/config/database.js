@@ -1,6 +1,5 @@
-import { Sequelize } from "sequelize";// Importamos Sequelize
-
 //require("dotenv").config();   // Cargamos variables de entorno cuando trabajo localmente
+const { Sequelize } = require("sequelize"); // Importamos Sequelize
 
 // Creamos la conexión a la base de datos
 const sequelize = new Sequelize(
