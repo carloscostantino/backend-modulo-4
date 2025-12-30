@@ -1,23 +1,25 @@
-import { Sequelize } from "sequelize";
+const { Sequelize } = require("sequelize");
+require("dotenv").config();
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
+  process.env.MYSQLDATABASE,
+  process.env.MYSQLUSER,
+  process.env.MYSQLPASSWORD,
   {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    host: process.env.MYSQLHOST,
+    port: process.env.MYSQLPORT,
     dialect: "mysql",
+    logging: false,
   }
 );
 
 const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    console.log("✅ Conectado a MySQL");
+    console.log("✅ Conectado a la base de datos");
   } catch (error) {
-    console.error("❌ Error conectando a la DB:", error);
+    console.error("❌ Error al conectar a la base de datos:", error);
   }
 };
 
-export { sequelize, connectDB };
+module.exports = { sequelize, connectDB };
