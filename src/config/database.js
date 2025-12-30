@@ -1,4 +1,5 @@
-const { Sequelize } = require("sequelize");// Importamos Sequelize
+import { Sequelize } from "sequelize";// Importamos Sequelize
+
 require("dotenv").config();   // Cargamos variables de entorno
 
 // Creamos la conexión a la base de datos
@@ -10,7 +11,6 @@ const sequelize = new Sequelize(
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: "mysql",
-    logging: false // evita que muestre logs SQL
   }
 );
 
