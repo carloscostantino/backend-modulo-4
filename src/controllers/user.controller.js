@@ -1,11 +1,12 @@
-const User = require("../models/user.model");
+import bcrypt from "bcrypt";
+import User from "../models/user.model.js";
 
 // ======================
 // VER USUARIO LOGUEADO
 // ======================
-const getProfile = async (req, res) => {
+export const getProfile = async (req, res) => {
   try {
-    const user = req.user;// Usuario obtenido del middleware de autenticación
+    const user = req.user; // Usuario obtenido del middleware
 
     res.json({
       id: user.id,
@@ -22,8 +23,7 @@ const getProfile = async (req, res) => {
 // ======================
 // ACTUALIZAR USUARIO
 // ======================
-// Actualiza el perfil del usuario logueado, se puede cambiar nombre, email y contraseña
-const updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
   try {
     const user = req.user;
     const { name, email, password } = req.body;
@@ -32,13 +32,11 @@ const updateUser = async (req, res) => {
     if (email) user.email = email;
 
     if (password) {
-      const bcrypt = require("bcrypt");
       user.password = await bcrypt.hash(password, 10);
     }
 
-    await user.save();// Guardamos los cambios
-    
-// Respuesta con el usuario actualizado
+    await user.save();
+
     res.json({
       message: "Usuario actualizado correctamente",
       user: {
@@ -58,7 +56,7 @@ const updateUser = async (req, res) => {
 // ======================
 // ELIMINAR USUARIO
 // ======================
-const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res) => {
   try {
     await req.user.destroy();
 
@@ -71,10 +69,4 @@ const deleteUser = async (req, res) => {
       message: "Error al eliminar usuario"
     });
   }
-};
-
-module.exports = {
-  getProfile,
-  updateUser,
-  deleteUser
 };

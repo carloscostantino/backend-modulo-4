@@ -1,9 +1,10 @@
-const app = require("./src/app"); // Importamos la app de express
-const { sequelize } = require("./src/config/database"); // Importamos la conexión a la base de datos
+import app from "./src/app.js"; // Importamos la aplicación de express
+import { sequelize } from "./src/config/database.js"; // Importamos la conexión a la base de datos
+
 
 // IMPORTAMOS LOS MODELOS
-require("./src/models/user.model");
-require("./src/models/task.model");
+import "./src/models/user.model.js";
+import "./src/models/task.model.js";
 
 
 const PORT = process.env.PORT || 3000;// Puerto del servidor

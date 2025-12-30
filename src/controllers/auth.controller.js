@@ -1,37 +1,37 @@
-const bcrypt = require("bcrypt");// Librería para encriptar contraseñas
-const jwt = require("jsonwebtoken");// Librería para manejar JSON Web Tokens
-const User = require("../models/user.model");// Importamos el modelo de Usuario
+import bcrypt from "bcrypt"; // Librería para encriptar contraseñas
+import jwt from "jsonwebtoken"; // Librería para manejar JWT
+import User from "../models/user.model.js"; // Modelo de Usuario
 
 // ======================
 // REGISTRO DE USUARIO
 // ======================
-const register = async (req, res) => {
+export const register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Validación básica de campos obligatorios
+    // Validación básica
     if (!name || !email || !password) {
       return res.status(400).json({
         message: "Todos los campos son obligatorios"
       });
     }
 
-    // Verificamos si el usuario ya existe 
-    const userExists = await User.findOne({ where: { email } });// Busca un usuario por email
+    // Verificar si existe
+    const userExists = await User.findOne({ where: { email } });
     if (userExists) {
       return res.status(400).json({
         message: "El usuario ya existe"
       });
     }
 
-    // Encriptamos contraseña. Convierte la contraseña en un hash
+    // Encriptar contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Creamos el usuario
+    // Crear usuario
     const user = await User.create({
       name,
       email,
-      password: hashedPassword    // Guardamos la contraseña encriptada
+      password: hashedPassword
     });
 
     res.status(201).json({
@@ -54,18 +54,16 @@ const register = async (req, res) => {
 // ======================
 // LOGIN DE USUARIO
 // ======================
-const login = async (req, res) => {
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validación básica de campos obligatorios
     if (!email || !password) {
       return res.status(400).json({
         message: "Email y contraseña son obligatorios"
       });
     }
 
-    // Buscar usuario
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
@@ -74,7 +72,6 @@ const login = async (req, res) => {
       });
     }
 
-    // Comparar contraseña, se utiliza await porque es una operación asíncrona
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
@@ -83,11 +80,10 @@ const login = async (req, res) => {
       });
     }
 
-    // Generar token con el ID del usuario
     const token = jwt.sign(
       { id: user.id },
-      process.env.JWT_SECRET,// Clave secreta para firmar el token
-      { expiresIn: "1h" } // El token expira en 1 hora
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
     );
 
     res.json({
@@ -101,9 +97,4 @@ const login = async (req, res) => {
       error: error.message
     });
   }
-};
-
-module.exports = {
-  register,
-  login
 };

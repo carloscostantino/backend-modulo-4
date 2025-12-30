@@ -1,11 +1,10 @@
-const jwt = require("jsonwebtoken");// Librería para manejar JSON Web Tokens
-const User = require("../models/user.model");// Importamos el modelo de Usuario
+import jwt from "jsonwebtoken";
+import User from "../models/user.model.js";
 
 // Middleware de autenticación
-
 const authMiddleware = async (req, res, next) => {
   try {
-    // Obtener token del header. 
+    // Obtener token del header
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -14,7 +13,7 @@ const authMiddleware = async (req, res, next) => {
       });
     }
 
-    // Formato esperado: Bearer TOKEN
+    // Formato esperado: "Bearer TOKEN"
     const token = authHeader.split(" ")[1];
 
     // Verificar token
@@ -29,7 +28,7 @@ const authMiddleware = async (req, res, next) => {
       });
     }
 
-    // Guardamos el usuario en la request para usarlo en los controladores
+    // Guardar usuario en la request
     req.user = user;
 
     next();
@@ -40,4 +39,4 @@ const authMiddleware = async (req, res, next) => {
   }
 };
 
-module.exports = authMiddleware;
+export default authMiddleware;

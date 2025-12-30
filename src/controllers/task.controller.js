@@ -1,9 +1,9 @@
-const Task = require("../models/task.model");
+import Task from "../models/task.model.js";
 
 // ======================
 // CREAR TAREA
 // ======================
-const createTask = async (req, res) => {
+export const createTask = async (req, res) => {
   try {
     const { title, description } = req.body;
 
@@ -14,7 +14,7 @@ const createTask = async (req, res) => {
     const task = await Task.create({
       title,
       description,
-      userId: req.user.id// Asignar la tarea al usuario logueado
+      userId: req.user.id // Asignar la tarea al usuario logueado
     });
 
     res.status(201).json(task);
@@ -26,9 +26,9 @@ const createTask = async (req, res) => {
 // ======================
 // OBTENER TAREAS DEL USUARIO
 // ======================
-const getTasks = async (req, res) => {
+export const getTasks = async (req, res) => {
   try {
-    const tasks = await Task.findAll({// Obtener todas las tareas del usuario logueado
+    const tasks = await Task.findAll({
       where: { userId: req.user.id }
     });
 
@@ -41,20 +41,19 @@ const getTasks = async (req, res) => {
 // ======================
 // ACTUALIZAR TAREA
 // ======================
-const updateTask = async (req, res) => {
+export const updateTask = async (req, res) => {
   try {
     const { id } = req.params;
     const { title, description, completed } = req.body;
 
     const task = await Task.findOne({
-      where: { id, userId: req.user.id }// Asegurarse que la tarea pertenece al usuario logueado
+      where: { id, userId: req.user.id }
     });
 
     if (!task) {
       return res.status(404).json({ message: "Tarea no encontrada" });
     }
 
-// Actualizar campos si se proporcionan
     if (title !== undefined) task.title = title;
     if (description !== undefined) task.description = description;
     if (completed !== undefined) task.completed = completed;
@@ -70,12 +69,12 @@ const updateTask = async (req, res) => {
 // ======================
 // ELIMINAR TAREA
 // ======================
-const deleteTask = async (req, res) => {
+export const deleteTask = async (req, res) => {
   try {
     const { id } = req.params;
 
     const task = await Task.findOne({
-      where: { id, userId: req.user.id }// Asegurarse que la tarea pertenece al usuario logueado
+      where: { id, userId: req.user.id }
     });
 
     if (!task) {
@@ -88,11 +87,4 @@ const deleteTask = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: "Error al eliminar tarea" });
   }
-};
-
-module.exports = {
-  createTask,
-  getTasks,
-  updateTask,
-  deleteTask
 };

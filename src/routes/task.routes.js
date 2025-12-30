@@ -1,13 +1,13 @@
-const express = require("express");
-const router = express.Router();
-
-const authMiddleware = require("../middlewares/auth.middleware");
-const {
+import express from "express";
+import authMiddleware from "../middlewares/auth.middleware.js";
+import {
   createTask,
   getTasks,
   updateTask,
   deleteTask
-} = require("../controllers/task.controller");
+} from "../controllers/task.controller.js";
+
+const router = express.Router();
 
 // Todas protegidas con el middleware de autenticación
 router.post("/", authMiddleware, createTask);
@@ -15,4 +15,4 @@ router.get("/", authMiddleware, getTasks);
 router.put("/:id", authMiddleware, updateTask);
 router.delete("/:id", authMiddleware, deleteTask);
 
-module.exports = router;
+export default router;

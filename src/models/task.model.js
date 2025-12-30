@@ -1,8 +1,7 @@
-// requerimos la librería DataTypes de Sequelize y la conexión a la base de datos
-const { DataTypes } = require("sequelize");
-const { sequelize } = require("../config/database");
+import { DataTypes } from "sequelize";
+import { sequelize } from "../config/database.js";
 
-// Definimos el modelo Tarea
+// Definimos el modelo Task
 const Task = sequelize.define("Task", {
   title: {
     type: DataTypes.STRING,
@@ -17,4 +16,4 @@ const Task = sequelize.define("Task", {
   }
 });
 
-module.exports = Task;
+export default Task;

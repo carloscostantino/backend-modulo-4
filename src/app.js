@@ -1,30 +1,32 @@
-const express = require("express"); // Importar express
-require("dotenv").config();// Cargar variables de entorno
+import express from "express";
+import dotenv from "dotenv";
 
-// Importar la función para conectar a la base de datos
-const { connectDB } = require("./config/database");
+// Cargar variables de entorno
+dotenv.config();
+
+// Importar la conexión a la base de datos
+import { connectDB } from "./config/database.js";
 
 // Importar las rutas
-const authRoutes = require("./routes/auth.routes");
-const userRoutes = require("./routes/user.routes");
-const taskRoutes = require("./routes/task.routes");
+import authRoutes from "./routes/auth.routes.js";
+import userRoutes from "./routes/user.routes.js";
+import taskRoutes from "./routes/task.routes.js";
 
+const app = express();
 
-const app = express();// Crear la aplicación de express
-
-// Middleware Middleware global para parsear JSON. Permite leer JSON en el body de las requests.
+// Middleware
 app.use(express.json());
 
+// Conectar a la base de datos
 connectDB();
 
-// Definir las rutas
+// Rutas
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", taskRoutes);
-
 
 app.get("/", (req, res) => {
   res.json({ message: "API funcionando correctamente" });
 });
 
-module.exports = app;
+export default app;

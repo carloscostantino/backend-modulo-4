@@ -1,6 +1,6 @@
-// requerimos la librería DataTypes de Sequelize y la conexión a la base de datos
-const { DataTypes } = require("sequelize");
-const { sequelize } = require("../config/database");
+import { DataTypes } from "sequelize";
+import { sequelize } from "../config/database.js";
+import Task from "./task.model.js";
 
 // Definimos el modelo Usuario
 const User = sequelize.define("User", {
@@ -19,12 +19,8 @@ const User = sequelize.define("User", {
   }
 });
 
-//Al borrar un usuario borrar sus tareas.
-const Task = require("./task.model");
+// Relaciones
+User.hasMany(Task, { foreignKey: "userId", onDelete: "CASCADE" });
+Task.belongsTo(User, { foreignKey: "userId" });
 
-// Definimos la relación entre User y Task
-User.hasMany(Task, { foreignKey: "userId", onDelete: "CASCADE" });// Un usuario puede tener muchas tareas
-Task.belongsTo(User, { foreignKey: "userId" });   // Una tarea pertenece a un único usuario
-
-
-module.exports = User;
+export default User;
