@@ -1,23 +1,20 @@
-//require("dotenv").config();   // Cargamos variables de entorno cuando trabajo localmente
-const { Sequelize } = require("sequelize"); // Importamos Sequelize
+const { Sequelize } = require("sequelize");
+require("dotenv").config();
 
-// Creamos la conexión a la base de datos
 const sequelize = new Sequelize(
-  process.env.MYSQL_DATABASE,
-  process.env.MYSQL_USER,
-  process.env.MYSQL_PASSWORD,
+  process.env.DB_NAME,
+  process.env.DB_USER,
+  process.env.DB_PASSWORD,
   {
-    host: process.env.MYSQL_HOST,
-    port: process.env.MYSQL_PORT,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     dialect: "mysql",
   }
 );
 
-
-// Función para probar conexión
 const connectDB = async () => {
   try {
-    await sequelize.authenticate(); // Devuelve una Promesa. por eso utilizamos await para que el código no se siga ejecutando.
+    await sequelize.authenticate();
     console.log("✅ Conectado a la base de datos");
   } catch (error) {
     console.error("❌ Error al conectar a la base de datos:", error);
