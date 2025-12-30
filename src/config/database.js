@@ -1,9 +1,6 @@
 import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
 
-dotenv.config();
-
-export const sequelize = new Sequelize(
+const sequelize = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
   process.env.DB_PASSWORD,
@@ -14,11 +11,13 @@ export const sequelize = new Sequelize(
   }
 );
 
-export const connectDB = async () => {
+const connectDB = async () => {
   try {
     await sequelize.authenticate();
-    console.log("✅ Conectado a la base de datos");
+    console.log("✅ Conectado a MySQL");
   } catch (error) {
-    console.error("❌ Error al conectar a la base de datos:", error);
+    console.error("❌ Error conectando a la DB:", error);
   }
 };
+
+export { sequelize, connectDB };
