@@ -1,3 +1,4 @@
+import 'dotenv/config'; // Cargar variables de entorno
 import app from "./src/app.js"; // Importamos la aplicación de express
 import { sequelize } from "./src/config/database.js"; // Importamos la conexión a la base de datos
 
