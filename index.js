@@ -1,21 +1,19 @@
-import 'dotenv/config'; // Cargar variables de entorno
-import app from "./src/app.js"; // Importamos la aplicación de express
-import { sequelize } from "./src/config/database.js"; // Importamos la conexión a la base de datos
+import 'dotenv/config';
+import app from "./src/app.js";
+import { sequelize, connectDB } from "./src/config/database.js";
 
-
-// IMPORTAMOS LOS MODELOS
 import "./src/models/user.model.js";
 import "./src/models/task.model.js";
 
+const PORT = process.env.PORT || 3000;
 
-const PORT = process.env.PORT || 3000;// Puerto del servidor
+(async () => {
+  await connectDB();
 
-// Sincronizamos los modelos con la base de datos y luego iniciamos el servidor
-
-sequelize.sync({ alter: true }).then(() => {
+  await sequelize.sync({ alter: true });
   console.log("📦 Base de datos sincronizada");
-// Iniciamos el servidor
+
   app.listen(PORT, () => {
     console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
   });
-});
+})();
